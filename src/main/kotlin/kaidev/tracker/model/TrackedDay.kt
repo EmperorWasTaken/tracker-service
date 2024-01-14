@@ -1,24 +1,23 @@
 package kaidev.tracker.model
 
-import MealItem
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class TrackedDay(
-        val id: Int,
-        val userId: String,
-        val date: String,
+        val id: Int? = null,
+        val userId: String? = null,
+        val date: String?= null,
         val breakfast: List<MealItem>?,
-        val lunch: List<MealItem>?,
-        val dinner: List<MealItem>?,
-        val snacks: List<MealItem>?,
-        val water: Int?,
-        val weight: Int?,
-        val calories: Int?,
-        val exercise: Int?,
-        val sleep: Int?,
-        val steps: Int?,
-        val mood: Int?,
-        val notes: String?,
+        val lunch: List<MealItem>?= null,
+        val dinner: List<MealItem>?= null,
+        val snacks: List<MealItem>?= null,
+        val water: Int?= null,
+        val weight: Int?= null,
+        val calories: Int?= null,
+        val exercise: Int?= null,
+        val sleep: Int?= null,
+        val steps: Int?= null,
+        val mood: Int? = null,
+        val notes: String? = null,
 
-)
+        )

@@ -13,10 +13,14 @@ class TrackerController(
 ) {
 
     @GetMapping("")
-    suspend fun get(): TrackedDay? {
-        return service.get()
+    suspend fun get(@RequestParam userId: String): TrackedDay? {
+        return service.get(userId)
     }
 
+    @GetMapping("/getAll")
+    suspend fun getAll(@RequestParam userId: String): List<TrackedDay>? {
+        return service.getAll(userId)
+    }
     @PostMapping("")
     suspend fun add(@RequestBody item: TrackedDay, @RequestParam userId: String) {
         return service.add(item, userId)
