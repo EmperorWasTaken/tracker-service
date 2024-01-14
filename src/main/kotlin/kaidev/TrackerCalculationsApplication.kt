@@ -1,4 +1,4 @@
-package kaidev.trackercalculations
+package kaidev
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

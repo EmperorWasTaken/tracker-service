@@ -1,20 +1,19 @@
 package kaidev.tracker.service
 
+import org.slf4j.LoggerFactory
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.gotrue.Auth
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.postgrest.PropertyConversionMethod
 import io.github.jan.supabase.postgrest.from
-import io.ktor.client.*
-import io.ktor.client.plugins.kotlinx.serializer.*
-import io.ktor.client.request.*
 import kaidev.tracker.model.TrackedDay
 import org.springframework.stereotype.Service
 import kotlinx.serialization.json.Json
 
 
 @Service
-class TrackerServicer {
+class TrackerService {
+    private val logger = LoggerFactory.getLogger(TrackerService::class.java)
 
 
     private val json = Json
@@ -35,9 +34,14 @@ class TrackerServicer {
     }
 
     suspend fun get(): TrackedDay? {
-        return supabase.from("tracked_day")
-                .select()
-                .decodeSingleOrNull<TrackedDay>()
+        return try {
+            supabase.from("tracked_day")
+                    .select()
+                    .decodeSingleOrNull<TrackedDay>()
+        } catch (e: Exception) {
+            logger.error("Error fetching tracked day: ${e.message}", e)
+            null
+        }
     }
 
 

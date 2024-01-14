@@ -1,7 +1,7 @@
 package kaidev.tracker.controller
 
 import kaidev.tracker.model.TrackedDay
-import kaidev.tracker.service.TrackerServicer
+import kaidev.tracker.service.TrackerService
 import org.springframework.web.bind.annotation.*
 
 
@@ -9,25 +9,25 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/feature/tracker")
 class TrackerController(
-        val service: TrackerServicer
+        val service: TrackerService
 ) {
 
-    @GetMapping("/get")
+    @GetMapping("")
     suspend fun get(): TrackedDay? {
         return service.get()
     }
 
-    @PostMapping("/add")
+    @PostMapping("")
     suspend fun add(@RequestBody item: TrackedDay, @RequestParam userId: String) {
         return service.add(item, userId)
     }
 
-    @GetMapping("/update")
+    @PutMapping("")
     fun edit() {
         return service.update()
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("")
     fun delete() {
         return service.delete()
     }

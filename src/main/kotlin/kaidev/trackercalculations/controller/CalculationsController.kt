@@ -11,7 +11,7 @@ class CalculationsController(
         val service: CalculationsService
 ) {
 
-    @GetMapping("/bmr")
+    @GetMapping("")
     fun getBMR(): Double {
         return service.getBMR()
     }
