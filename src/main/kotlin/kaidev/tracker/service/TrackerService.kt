@@ -73,16 +73,53 @@ class TrackerService {
         val itemWithUser = item.copy(userId = userId)
         val response = supabase.from("tracked_day")
                 .insert(itemWithUser)
-        if (response.data != null) {
-            println(response.data)
-        }
+        println(response.data)
     }
 
     fun update() {
         println("edit")
     }
 
-    fun delete() {
-        println("delete")
+    suspend fun delete(id: String, userId: String) {
+        val response = supabase.from("tracked_day")
+                .delete() {
+                    filter {
+                        eq("userId", userId)
+                        eq("id", id)
+                    }
+                }
+        println(response.data)
     }
+
+    suspend fun addOrUpdate(item: TrackedDay, userId: String) {
+        val existingItem = supabase.from("tracked_day")
+                .select() {
+                    filter {
+                        eq("userId", userId)
+                        item.date?.let { eq("date", it) }
+                    }
+                }
+                .decodeSingleOrNull<TrackedDay>()
+
+        if (existingItem != null) {
+            val updatedItem = existingItem.copy(
+                    breakfast = item.breakfast?.ifEmpty { existingItem.breakfast },
+                    lunch = item.lunch?.ifEmpty { existingItem.lunch },
+                    dinner = item.dinner?.ifEmpty { existingItem.dinner },
+                    snacks = item.snacks?.ifEmpty { existingItem.snacks }
+            )
+
+            supabase.from("tracked_day")
+                    .update(updatedItem) {
+                        filter {
+                            eq("userId", userId)
+                            item.date?.let { eq("date", it) }
+                        }
+                    }
+        } else {
+            add(item, userId)
+        }
+    }
+
+
 }
