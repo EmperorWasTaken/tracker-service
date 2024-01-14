@@ -23,8 +23,10 @@ class TrackerController(
     }
     @PostMapping("")
     suspend fun add(@RequestBody item: TrackedDay, @RequestParam userId: String) {
-        return service.add(item, userId)
+        return service.addOrUpdate(item, userId)
     }
+
+
 
     @PutMapping("")
     fun edit() {
@@ -32,7 +34,7 @@ class TrackerController(
     }
 
     @DeleteMapping("")
-    fun delete() {
-        return service.delete()
+    suspend fun delete(@RequestParam userId: String, @RequestParam id: String) {
+        return service.delete(id, userId)
     }
 }
