@@ -33,7 +33,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.GH_TOKEN }}
 
       - name: Push Docker image to GitHub Container Registry
         run: docker push ghcr.io/${{ env.REPO_NAME }}/tracker-service:latest
