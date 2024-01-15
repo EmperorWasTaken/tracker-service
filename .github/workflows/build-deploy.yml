@@ -12,8 +12,15 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v3
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Lowercase repo name
+        id: repo-name
+        run: echo "REPO_NAME=$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+
       - name: Build Docker image
-        run: docker build -t ghcr.io/${{ github.repository }}/tracker-service:latest -f src/deployment/Dockerfile.dft .
+        run: docker build -t ghcr.io/${{ env.REPO_NAME }}/tracker-service:latest -f src/deployment/Dockerfile.dft .
 
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v2
@@ -23,4 +30,4 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push Docker image to GitHub Container Registry
-        run: docker push ghcr.io/${{ github.repository }}/tracker-service:latest
+        run: docker push ghcr.io/${{ env.REPO_NAME }}/tracker-service:latest
