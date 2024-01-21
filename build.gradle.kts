@@ -52,6 +52,8 @@ dependencies {
     implementation("io.ktor:ktor-client-serialization:$ktorVersion")
     implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
+    implementation("com.google.code.gson:gson:2.8.9")
+
 
 }
 

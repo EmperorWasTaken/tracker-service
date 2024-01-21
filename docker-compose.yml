@@ -1,0 +1,6 @@
+version: '3.8'
+services:
+  tracker-service:
+    image: ghcr.io/emperorwastaken/tracker-service/tracker-service:latest
+    ports:
+      - "8095:8095"
