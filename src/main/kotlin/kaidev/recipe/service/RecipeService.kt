@@ -27,8 +27,13 @@ class RecipeService(
                     "name",
                     "description",
                     "image",
+                    "servings",
+                    "cook_time",
+                    "prep_time",
+                    "author",
                     "ingredients:ingredients(id, name, amount, unit)",
-                    "steps:recipe_steps(id, description, image, video)"
+                    "steps:recipe_steps(id, description, image, video)",
+                    "nutrition:nutrition(id, calories, carbs, fat, protein)"
             )
 
             val recipe = supabase.from("recipes")
@@ -78,8 +83,13 @@ class RecipeService(
                     "name",
                     "description",
                     "image",
+                    "servings",
+                    "cook_time",
+                    "prep_time",
+                    "author",
                     "ingredients:ingredients(id, name, amount, unit)",
-                    "steps:recipe_steps(id, description, image, video)"
+                    "steps:recipe_steps(id, description, image, video)",
+                    "nutrition:nutrition(id, calories, carbs, fat, protein)"
             )
             val recipes = supabase.from("recipes")
                     .select(recipeColumns) {
