@@ -12,7 +12,7 @@ data class Recipe(
         val tags: List<Tag>? = null,
         val image: String? = null,
         val user_id: String? = null,
-        val nutrition: List<Nutrition>? = null,
+        val nutrition: Nutrition? = null,
         val author: String? = null,
         val prep_time: String? = null,
         val cook_time: String? = null,

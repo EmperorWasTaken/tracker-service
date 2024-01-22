@@ -32,8 +32,7 @@ class RecipeService(
                     "prep_time",
                     "author",
                     "ingredients:ingredients(id, name, amount, unit)",
-                    "steps:recipe_steps(id, description, image, video)",
-                    "nutrition:nutrition(id, calories, carbs, fat, protein)"
+                    "steps:recipe_steps(id, description, image, video)"
             )
 
             val recipe = supabase.from("recipes")
@@ -46,6 +45,15 @@ class RecipeService(
                     .decodeSingleOrNull<Recipe>()
 
             if (recipe != null) {
+
+                val nutrition = supabase.from("nutrition")
+                        .select(columns = Columns.list("id, calories, carbs, fat, protein")) {
+                            filter {
+                                recipe.id?.let { eq("recipe_id", it) }
+                            }
+                        }
+                        .decodeSingleOrNull<Nutrition>()
+
                 val tagIds = supabase.from("recipe_tags")
 
                         .select() {
@@ -65,7 +73,7 @@ class RecipeService(
                             .decodeSingleOrNull<Tag>()
                 }
 
-                recipe.copy(tags = tags)
+                recipe.copy(tags = tags, nutrition = nutrition)
             } else {
                 null
             }
@@ -88,8 +96,7 @@ class RecipeService(
                     "prep_time",
                     "author",
                     "ingredients:ingredients(id, name, amount, unit)",
-                    "steps:recipe_steps(id, description, image, video)",
-                    "nutrition:nutrition(id, calories, carbs, fat, protein)"
+                    "steps:recipe_steps(id, description, image, video)"
             )
             val recipes = supabase.from("recipes")
                     .select(recipeColumns) {
@@ -101,6 +108,16 @@ class RecipeService(
 
             recipes.map { recipe ->
                 recipe.let {
+
+                    val nutrition = supabase.from("nutrition")
+                            .select(columns = Columns.list("id, calories, carbs, fat, protein")) {
+                                filter {
+                                    recipe.id?.let { eq("recipe_id", it) }
+                                }
+                            }
+                            .decodeSingleOrNull<Nutrition>()
+
+
                     val tagIds = supabase.from("recipe_tags")
                             .select() {
                                 filter {
@@ -118,7 +135,7 @@ class RecipeService(
                                 }
                                 .decodeSingleOrNull<Tag>()
                     }
-                    recipe.copy(tags = tags)
+                    recipe.copy(tags = tags, nutrition = nutrition)
                 }
             }
         } catch (e: Exception) {
@@ -134,8 +151,12 @@ class RecipeService(
                     "name" to recipe.name,
                     "description" to recipe.description,
                     "image" to recipe.image,
-                    "user_id" to userId
+                    "user_id" to userId,
+                    "cook_time" to recipe.cook_time,
+                    "prep_time" to recipe.prep_time,
+                    "author" to recipe.author
             )
+
             val insertedRecipe = supabase.from("recipes")
                     .insert(newRecipeMap) { select() }
                     .decodeSingleOrNull<Recipe>()
@@ -164,6 +185,20 @@ class RecipeService(
 
                     supabase.from("recipe_steps")
                             .insert(stepMap)
+                }
+
+                recipe.nutrition?.let { nutrition ->
+
+                    val nutritionMap = Nutrition(
+                            recipe_id = insertedRecipe.id,
+                            calories = nutrition.calories,
+                            carbs = nutrition.carbs,
+                            fat = nutrition.fat,
+                            protein = nutrition.protein
+                    )
+
+                    supabase.from("nutrition")
+                            .insert(nutritionMap)
                 }
 
                 recipe.tags?.forEach { tag ->
