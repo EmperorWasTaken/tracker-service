@@ -1,14 +1,28 @@
 package kaidev.tracker.model
 
 import kotlinx.serialization.Serializable
+import org.bson.types.ObjectId
+import org.springframework.data.annotation.Id
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Serializable
+
+@Document(collection = "tracked_days")
 data class TrackedDay(
-        val id: Int? = null,
-        val userId: String? = null,
+
+        @Id
+        var id: ObjectId? = null,
+
+        var userId: String? = null,
         val date: String?= null,
         val breakfast: List<MealItem>?,
         val lunch: List<MealItem>?= null,
         val dinner: List<MealItem>?= null,
-        val snacks: List<MealItem>?= null
+        val snacks: List<MealItem>?= null,
+        val test: String?= null
         )
+
+@Serializable
+data class MealItem(
+        val name: String? = null,
+        val calories: Int? = null
+)

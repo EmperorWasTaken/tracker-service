@@ -34,16 +34,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.reactivestreams:reactive-streams:1.0.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.6.0")
-
-
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
-    // Supabase dependencies
-    implementation("io.github.jan-tennert.supabase:gotrue-kt:2.0.4")
-    implementation("io.github.jan-tennert.supabase:storage-kt:2.0.4")
-    implementation("io.github.jan-tennert.supabase:functions-kt:2.0.4")
-    implementation("io.github.jan-tennert.supabase:postgrest-kt:$supabaseVersion")
-    implementation("io.github.jan-tennert.supabase:realtime-kt:$supabaseVersion")
     // ... other non-Android dependencies ...
 
     // Ktor client dependencies
@@ -54,6 +46,10 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
     implementation("com.google.code.gson:gson:2.8.9")
 
+    // MongoDB dependencies
+    implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
+    implementation("org.mongodb:mongodb-driver-kotlin-coroutine:4.11.0")
+    implementation("org.mongodb:bson-kotlinx:4.11.0")
 
 }
 
