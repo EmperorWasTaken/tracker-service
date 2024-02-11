@@ -35,6 +35,9 @@ dependencies {
     implementation("org.reactivestreams:reactive-streams:1.0.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.6.0")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("io.jsonwebtoken:jjwt:0.12.5")
 
     // ... other non-Android dependencies ...
 
