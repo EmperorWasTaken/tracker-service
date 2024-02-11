@@ -17,8 +17,7 @@ data class TrackedDay(
         val breakfast: List<MealItem>?,
         val lunch: List<MealItem>?= null,
         val dinner: List<MealItem>?= null,
-        val snacks: List<MealItem>?= null,
-        val test: String?= null
+        val snacks: List<MealItem>?= null
         )
 
 @Serializable
