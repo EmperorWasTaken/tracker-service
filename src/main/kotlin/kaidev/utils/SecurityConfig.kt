@@ -28,6 +28,7 @@ class SecurityConfig {
             .and()
             .authorizeHttpRequests { authz -> authz
                 .requestMatchers("/api/public/**").permitAll()
+                .requestMatchers("/api/1/actuator/**").permitAll()
                 .anyRequest().authenticated()
             }
             .oauth2ResourceServer { oauth2 -> oauth2.jwt() }
